@@ -68,7 +68,13 @@ const StartGameScreen = (props) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.screen}>
-        <Text style={{ fontSize: 25, textAlign: "center" }}>
+        <Text
+          style={{
+            fontSize: 25,
+            fontFamily: "roboto-bold",
+            textAlign: "center",
+          }}
+        >
           Start new game
         </Text>
         <View>
@@ -116,6 +122,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: "center",
+    marginTop: 30,
   },
   inputContainer: {
     alignItems: "center",
