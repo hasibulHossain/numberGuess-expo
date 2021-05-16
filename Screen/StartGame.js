@@ -1,9 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Button, StyleSheet, Alert, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Alert,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import colors from "../constants/colors";
+import { AntDesign } from "@expo/vector-icons";
 
 const generateRandomNumber = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -99,6 +107,24 @@ const StartGame = (props) => {
           color={colors.primary}
           onPress={nextGuessHandler.bind(this, "greater")}
         />
+        {/* <View>
+          <TouchableWithoutFeedback
+            onPress={nextGuessHandler.bind(this, "Lower")}
+          >
+            <Text>
+              <AntDesign name="doubleleft" size={24} color="black" />
+            </Text>
+          </TouchableWithoutFeedback>
+        </View>
+        <View>
+          <TouchableWithoutFeedback
+            onPress={nextGuessHandler.bind(this, "greater")}
+          >
+            <Text>
+              <AntDesign name="doubleright" size={24} color="black" />
+            </Text>
+          </TouchableWithoutFeedback>
+        </View> */}
       </Card>
     </View>
   );
