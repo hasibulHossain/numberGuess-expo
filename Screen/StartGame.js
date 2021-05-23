@@ -11,7 +11,7 @@ import {
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import colors from "../constants/colors";
-import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const generateRandomNumber = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -97,7 +97,21 @@ const StartGame = (props) => {
         guessedNum={GeneratedNumber}
       />
       <Card style={styles.card}>
-        <Button
+        <TouchableWithoutFeedback
+          onPress={nextGuessHandler.bind(this, "lower")}
+        >
+          <View style={styles.btnContainer}>
+            <Ionicons name="arrow-down-circle" color="#000" size={34} />
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={nextGuessHandler.bind(this, "greater")}
+        >
+          <View style={styles.btnContainer}>
+            <Ionicons name="arrow-up-circle" color="#000" size={32} />
+          </View>
+        </TouchableWithoutFeedback>
+        {/* <Button
           title="<Less"
           color={colors.accent}
           onPress={nextGuessHandler.bind(this, "lower")}
@@ -106,7 +120,7 @@ const StartGame = (props) => {
           title="Great>"
           color={colors.primary}
           onPress={nextGuessHandler.bind(this, "greater")}
-        />
+        /> */}
         {/* <View>
           <TouchableWithoutFeedback
             onPress={nextGuessHandler.bind(this, "Lower")}
@@ -139,6 +153,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "80%",
     justifyContent: "space-around",
+  },
+  btnContainer: {
+    backgroundColor: colors.accent,
+    width: "30%",
+    borderRadius: 20,
+    alignItems: "center",
+    paddingVertical: 10,
   },
 });
 
