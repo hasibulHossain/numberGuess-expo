@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Alert,
   TouchableWithoutFeedback,
+  ScrollView,
+  FlatList,
 } from "react-native";
 
 import NumberContainer from "../components/NumberContainer";
@@ -32,6 +34,7 @@ const StartGame = (props) => {
   const [rounds, setRounds] = useState(0);
   const [mistake, setMistake] = useState(0);
   const [isMistaken, setIsMistaken] = useState(false);
+  const [list, setList] = useState([]);
 
   const minBoundary = useRef(1);
   const maxBoundary = useRef(100);
@@ -66,13 +69,35 @@ const StartGame = (props) => {
     setRounds((preState) => preState + 1);
   };
 
+  const mapList = (item, index) => (
+    <Card
+      key={index}
+      style={{ width: "80%", borderRadius: 5, marginBottom: 20 }}
+    >
+      <View style={styles.listItem}>
+        <Text>#{index}</Text>
+        <Text>{item}</Text>
+      </View>
+    </Card>
+  );
+
+  const renderedListItem = (listLength, itemData) => (
+    <Card
+      key={itemData.index}
+      style={{ width: "80%", borderRadius: 5, marginBottom: 20 }}
+    >
+      <View style={styles.listItem}>
+        <Text>#{itemData.index}</Text>
+        <Text>{itemData.item}</Text>
+      </View>
+    </Card>
+  );
+
   useEffect(() => {
-    console.log(
-      "user guessed number => ",
-      userGuessedNum,
-      "computer generated number => ",
-      GeneratedNumber
-    );
+    console.log("list => ", list);
+    const cloneList = [...list];
+    cloneList.push(GeneratedNumber);
+    setList(cloneList);
     if (mistake > 2) {
       Alert.alert("Loose", "message message message", [
         {
@@ -85,7 +110,7 @@ const StartGame = (props) => {
     if (GeneratedNumber === userGuessedNum) {
       props.onFinishGameHandler(rounds);
     }
-  });
+  }, [GeneratedNumber]);
 
   return (
     <View style={styles.screen}>
@@ -111,35 +136,18 @@ const StartGame = (props) => {
             <Ionicons name="arrow-up-circle" color="#000" size={32} />
           </View>
         </TouchableWithoutFeedback>
-        {/* <Button
-          title="<Less"
-          color={colors.accent}
-          onPress={nextGuessHandler.bind(this, "lower")}
-        />
-        <Button
-          title="Great>"
-          color={colors.primary}
-          onPress={nextGuessHandler.bind(this, "greater")}
-        /> */}
-        {/* <View>
-          <TouchableWithoutFeedback
-            onPress={nextGuessHandler.bind(this, "Lower")}
-          >
-            <Text>
-              <AntDesign name="doubleleft" size={24} color="black" />
-            </Text>
-          </TouchableWithoutFeedback>
-        </View>
-        <View>
-          <TouchableWithoutFeedback
-            onPress={nextGuessHandler.bind(this, "greater")}
-          >
-            <Text>
-              <AntDesign name="doubleright" size={24} color="black" />
-            </Text>
-          </TouchableWithoutFeedback>
-        </View> */}
       </Card>
+      <View style={styles.listContainer}>
+        {/* <ScrollView contentContainerStyle={styles.list}>
+          {list.map(mapList)}
+        </ScrollView> */}
+        <FlatList
+          contentContainerStyle={styles.list}
+          keyExtractor={(item) => item.toString()}
+          data={list}
+          renderItem={renderedListItem.bind(this, list.length)}
+        />
+      </View>
     </View>
   );
 };
@@ -160,6 +168,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     paddingVertical: 10,
+  },
+  listContainer: {
+    width: "60%",
+    flex: 1,
+    marginTop: 10,
+  },
+  list: {
+    justifyContent: "flex-end",
+    flexGrow: 1,
+    paddingLeft: "20%",
+    // alignItems: "center",
+    paddingVertical: 20,
+  },
+  listItem: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
 
